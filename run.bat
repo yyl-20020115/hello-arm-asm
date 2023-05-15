@@ -4,5 +4,5 @@ adb shell "ls -la /data/local/tmp/hello"
 adb shell "/data/local/tmp/hello"
 
 
-#Output:
-#Hello, ARM64! Written by Yilin
+REM Output:
+REM Hello, ARM64! Written by Yilin

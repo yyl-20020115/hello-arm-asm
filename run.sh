@@ -5,4 +5,4 @@ adb shell "/data/local/tmp/hello"
 
 
 #Output:
-#Hello, ARM64! Written by Yilin
+#Hello, ARM! Written by Yilin
