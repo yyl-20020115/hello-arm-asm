@@ -3,6 +3,3 @@ adb shell "chmod 777 /data/local/tmp/hello"
 adb shell "ls -la /data/local/tmp/hello"
 adb shell "/data/local/tmp/hello"
 
-
-REM Output:
-REM Hello, ARM64! Written by Yilin

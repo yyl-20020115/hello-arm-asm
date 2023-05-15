@@ -4,5 +4,3 @@ adb shell "ls -la /data/local/tmp/hello"
 adb shell "/data/local/tmp/hello"
 
 
-#Output:
-#Hello, ARM! Written by Yilin
