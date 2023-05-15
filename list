@@ -1,68 +1,49 @@
-AARCH64 GAS  hello64.s 			page 1
+ARM GAS  hello.s 			page 1
 
 
- GNU assembler version 2.27.0 (aarch64-linux-android)
+ GNU assembler version 2.27.0 (arm-linux-androideabi)
 	 using BFD version (GNU Binutils) 2.27.0.20170315.
  options passed	: -aghls=list 
- input file    	: hello64.s
- output file   	: hello64.o
- target        	: aarch64-unknown-linux-android
- time stamp    	: 2023-05-16T03:02:28.000+0800
+ input file    	: hello.s
+ output file   	: hello.o
+ target        	: arm-unknown-linux-androideabi
+ time stamp    	: 2023-05-16T04:27:53.000+0800
 
-AARCH64 GAS  hello64.s 			page 2
+ARM GAS  hello.s 			page 2
 
 
-   1              	msg:
-   2              	
-   3 0000 48656C6C 	    .ascii        "Hello, ARM64! Written by Yiiln.\n"
-   3      6F2C2041 
-   3      524D3634 
-   3      21205772 
-   3      69747465 
-   4              	
-   5              	len = . - msg
-   6              	
-   7              	.text
-   8              	
-   9              	/* Our application's entry point. */
-  10              	
-  11              	.globl _start
-  12              	
-  13              	_start:
-  14              	
-  15              	    /* syscall write(int fd, const void *buf, size_t count) */
-  16              	
-  17 0020 E00300AA 	        mov     x0, x0
-  18 0024 E10301AA 	        mov     x1, x1
-  19 0028 00000091 	        add     x0, x0,#0
-  20 002c 00040091 	        add     x0, x0,#1
-  21 0030 1F0000F1 	        cmp     x0, #0
-  22 0034 1F0400F1 	        cmp     x0, #1
-  23 0038 1F0001EB 	        cmp     x0, x1
-  24 003c 200080D2 	        mov     x0, #1      /* fd := STDOUT_FILENO */
-  25 0040 01010058 	        ldr     x1, =msg    /* buf := msg */
-  26 0044 22010058 	        ldr     x2, =len    /* count := len */
-  27 0048 08088052 	        mov     w8, #64     /* write is syscall #64 */
-  28 004c 010000D4 	        svc     #0          /* invoke syscall */
-  29              	
-  30              	    /* syscall exit(int status) */
-  31 0050 000080D2 	        mov     x0, #0      /* status := 0 */
-  32 0054 A80B8052 	        mov     w8, #93     /* exit is syscall #93 */
-  33 0058 010000D4 	        svc     #0          /* invoke syscall */
-  34 005c 00000000 	
-  34      00000000 
-  34      00000000 
-  34      20000000 
-  34      00000000 
-AARCH64 GAS  hello64.s 			page 3
+   1              	.syntax unified
+   2              	.data
+   3              	message:
+   4 0000 48656C6C 	        .ascii "Hello, ARM! Written by Yiiln.\n"
+   4      6F2C2041 
+   4      524D2120 
+   4      57726974 
+   4      74656E20 
+   5              	len = . - message
+   6              	.text
+   7              	.global _start
+   8              	_start:
+   9              	        /* syscall write(int fd, const void *buf, size_t count) */
+  10 0000 0100A0E3 	        mov     %r0, $1     /* fd -> stdout */
+  11 0004 14109FE5 	        ldr     %r1, =message   /* buf -> message */
+  12 0008 1E20A0E3 	        ldr     %r2, =len   /* count -> len(message) */
+  13 000c 0470A0E3 	        mov     %r7, $4     /* write is syscall #4 */
+  14 0010 000000EF 	        swi     $0          /* invoke syscall */
+  15              	
+  16              	        /* syscall exit(int status) */
+  17 0014 0000A0E3 	        mov     %r0, $0     /* status -> 0 */
+  18 0018 0170A0E3 	        mov     %r7, $1     /* exit is syscall #1 */
+  19 001c 000000EF 	        swi     $0          /* invoke syscall */
+  20 0020 00000000 	
+ARM GAS  hello.s 			page 3
 
 
 DEFINED SYMBOLS
-           hello64.s:1      .text:0000000000000000 msg
-           hello64.s:3      .text:0000000000000000 $d
-           hello64.s:5      *ABS*:0000000000000020 len
-           hello64.s:13     .text:0000000000000020 _start
-           hello64.s:17     .text:0000000000000020 $x
-           hello64.s:34     .text:0000000000000060 $d
+             hello.s:3      .data:0000000000000000 message
+             hello.s:5      *ABS*:000000000000001e len
+             hello.s:8      .text:0000000000000000 _start
+             hello.s:10     .text:0000000000000000 $a
+             hello.s:20     .text:0000000000000020 $d
 
 NO UNDEFINED SYMBOLS

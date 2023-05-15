@@ -1,7 +1,7 @@
 .syntax unified
 .data
 message:
-        .ascii "Hello, world.\n"
+        .ascii "Hello, ARM! Written by Yiiln.\n"
 len = . - message
 .text
 .global _start
