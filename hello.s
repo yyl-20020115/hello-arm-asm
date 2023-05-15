@@ -6,6 +6,7 @@ len = . - message
 .text
 .global _start
 _start:
+/*thumb:        movs    %r0, #0    ;0020*/
         /* syscall write(int fd, const void *buf, size_t count) */
         mov     %r0, $1     /* fd -> stdout */
         ldr     %r1, =message   /* buf -> message */
