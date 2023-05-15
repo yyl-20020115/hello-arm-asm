@@ -7,60 +7,42 @@ ARM GAS  hello.s 			page 1
  input file    	: hello.s
  output file   	: hello.o
  target        	: arm-unknown-linux-androideabi
- time stamp    	: 2023-05-16T02:33:51.000+0800
+ time stamp    	: 2023-05-16T02:48:49.000+0800
 
 ARM GAS  hello.s 			page 2
 
 
-   1              	/* Data segment: define our message string and calculate its length. */
-   2              	
-   3              	msg:
-   4              	
-   5 0000 48656C6C 	    .ascii        "Hello, ARM64! Written by Yiiln.\n"
-   5      6F2C2041 
-   5      524D3634 
-   5      21205772 
-   5      69747465 
-   6              	
-   7              	len = . - msg
-   8              	
-   9              	.text
-  10              	
-  11              	/* Our application's entry point. */
-  12              	
-  13              	.globl _start
-  14              	
-  15              	_start:
-  16              	
-  17              	    /* syscall write(int fd, const void *buf, size_t count) */
-  18              	
-  19 0020 0000A0E1 		mov     r0, r0 
-  20 0024 0110A0E1 		mov     r1, r1
-  21 0028 000080E2 		add     r0, r0,#0
-  22 002c 010080E2 		add     r0, r0,#1
-  23 0030 000050E3 		cmp     r0, #0
-  24 0034 010050E3 		cmp     r0, #1
-  25 0038 010050E1 		cmp     r0, r1
-  26 003c 0100A0E3 		mov     r0, #1      /* fd := STDOUT_FILENO */
-  27 0040 14109FE5 		ldr     r1, =msg    /* buf := msg */
-  28 0044 2020A0E3 		ldr     r2, =len    /* count := len */
-  29 0048 4080A0E3 		mov     r8, #64     /* write is syscall #64 */
-  30 004c 000000EF 		svc     #0          /* invoke syscall */
-  31              	
-  32              	    /* syscall exit(int status) */
-  33 0050 0000A0E3 		mov     r0, #0      /* status := 0 */
-  34 0054 5D80A0E3 		mov     r8, #93     /* exit is syscall #93 */
-  35 0058 000000EF 		svc     #0          /* invoke syscall */
-  36 005c 00000000 	
+   1              	.syntax unified
+   2              	.data
+   3              	message:
+   4 0000 48656C6C 	        .ascii "Hello, world.\n"
+   4      6F2C2077 
+   4      6F726C64 
+   4      2E0A
+   5              	len = . - message
+   6              	.text
+   7              	.global _start
+   8              	_start:
+   9              	        /* syscall write(int fd, const void *buf, size_t count) */
+  10 0000 0100A0E3 	        mov     %r0, $1     /* fd -> stdout */
+  11 0004 14109FE5 	        ldr     %r1, =message   /* buf -> message */
+  12 0008 0E20A0E3 	        ldr     %r2, =len   /* count -> len(message) */
+  13 000c 0470A0E3 	        mov     %r7, $4     /* write is syscall #4 */
+  14 0010 000000EF 	        swi     $0          /* invoke syscall */
+  15              	
+  16              	        /* syscall exit(int status) */
+  17 0014 0000A0E3 	        mov     %r0, $0     /* status -> 0 */
+  18 0018 0170A0E3 	        mov     %r7, $1     /* exit is syscall #1 */
+  19 001c 000000EF 	        swi     $0          /* invoke syscall */
+  20 0020 00000000 	
 ARM GAS  hello.s 			page 3
 
 
 DEFINED SYMBOLS
-             hello.s:3      .text:0000000000000000 msg
-             hello.s:7      *ABS*:0000000000000020 len
-             hello.s:15     .text:0000000000000020 _start
-                            .text:0000000000000000 $d
-             hello.s:19     .text:0000000000000020 $a
-             hello.s:36     .text:000000000000005c $d
+             hello.s:3      .data:0000000000000000 message
+             hello.s:5      *ABS*:000000000000000e len
+             hello.s:8      .text:0000000000000000 _start
+             hello.s:10     .text:0000000000000000 $a
+             hello.s:20     .text:0000000000000020 $d
 
 NO UNDEFINED SYMBOLS
